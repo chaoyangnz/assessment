@@ -1,0 +1,74 @@
+<div class="row show-grid">
+  <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {class:'form-vertical well row span4'}) do |f| %>
+      <%= devise_error_messages! %>
+      <fieldset>
+      <legend>帐号注册</legend>
+      <!-- insert control groups here -->
+      <div class="control-group">
+        <label class="control-label" for="">用户名</label>
+        <div class="controls">
+          <!--<div class="input-prepend input-append">-->
+          <input name="user[username]" type="text" class="span4" placeholder="Pick a username">
+          <!--</div>-->
+          <!--<span class="help-inline"></span>-->
+          <!--<p class="help-block"></p>-->
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="">电子邮箱</label>
+        <div class="controls">
+          <!--<div class="input-prepend input-append">-->
+          <input name="user[email]" type="text" class="span4" placeholder="Your email">
+          <!--</div>-->
+          <!--<span class="help-inline"></span>-->
+          <!--<p class="help-block"></p>-->
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="">密码</label>
+        <div class="controls">
+          <!--<div class="input-prepend input-append">-->
+          <input name="user[password]" type="password" class="span4" placeholder="Create a password">
+          <!--</div>-->
+          <!--<span class="help-inline"></span>-->
+          <!--<p class="help-block"></p>-->
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="">密码确认</label>
+        <div class="controls">
+          <!--<div class="input-prepend input-append">-->
+          <input name="user[password_confirmation]" type="password" class="span4" placeholder="Password confirmation">
+          <!--</div>-->
+          <!--<span class="help-inline"></span>-->
+          <!--<p class="help-block"></p>-->
+        </div>
+      </div>
+      <!--<div class="control-group">-->
+        <!--<label class="control-label" for="">邀请码</label>-->
+        <!--<div class="controls">-->
+          <!--&lt;!&ndash;<div class="input-prepend input-append">&ndash;&gt;-->
+          <!--<input name="invitation_code" type="password" class="span4" placeholder="Your invitation code">-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--&lt;!&ndash;<span class="help-inline"></span>&ndash;&gt;-->
+          <!--&lt;!&ndash;<p class="help-block"></p>&ndash;&gt;-->
+        <!--</div>-->
+      <!--</div>-->
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox"/> 同意服务条款及隐私权政策
+          </label>
+        </div>
+      </div>
+      <hr/>
+      <button type="submit" class="btn btn-large btn-success" data-loading-text="注册中...">同意并注册</button>
+      <%= render "users/shared/links" %>
+    </fieldset>
+  <% end %>
+
+  <div class="span7 pull-right">
+    <p>ddd</p>
+  </div>
+
+</div>

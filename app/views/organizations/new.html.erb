@@ -1,0 +1,38 @@
+<div id="organization-form" class="well">
+  <%= simple_form_for @organization, :html => {:class => 'form-horizontal'} do |f| %>
+      <fieldset>
+        <legend>机构信息-新增</legend>
+        <!--%= render 'form', :f => f %-->
+        <%= f.input :name, :label => '机构名称', :required => true %>
+
+        <%= f.input :address, :label => '地址', :required => true  %>
+
+        <%= f.input :telephone, :label => '联系电话', :required => true %>
+
+        <%= f.input :linkman, :label => '联系人', :required => true %>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>管理员设置（默认密码: 12345678）</legend>
+
+        <%= f.input :username, :label => '用户名', :required => true do %>
+            <input type="text" name="admin[username]">
+        <% end %>
+
+        <%= f.input :email, :label => '电子邮箱', :required => true do %>
+            <input type="text" name="admin[email]">
+        <% end %>
+
+
+     </fieldset>
+
+
+      <div class="form-actions">
+        <%= submit_tag '保存', :class => 'btn btn-primary' %>
+        <a href="<%= url_for(:back) %>" class="btn">取消</a>
+        <!--%= submit_tag '取消', :type => :reset, :class => "btn" %-->
+      </div>
+
+  <% end %>
+</div>

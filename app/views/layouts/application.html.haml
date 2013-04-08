@@ -1,0 +1,84 @@
+!!! 5
+%html
+  %head
+    %title AssessIt!
+    = stylesheet_link_tag 'application', :media => 'all'
+    -#= stylesheet_link_tag params[:controller]
+    = yield :stylesheets
+    = javascript_include_tag 'modernizr'
+    = javascript_include_tag 'application'
+    -#= javascript_include_tag params[:controller]
+    = csrf_meta_tags
+  %body
+    /[if lt IE 9]
+      = stylesheet_link_tag    "application.ie6"
+      %p
+        Your browser is
+        %em ancient!
+        %a(href="http://browsehappy.com/")Upgrade to a different browser
+        or
+        %a(href="http://www.google.com/chromeframe/?redirect=true")install Google Chrome Frame
+        to experience this site.
+    %header.navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %button.btn.btn-navbar(type="button" data-toggle="collapse" data-target=".nav-collapse")
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.brand(href="/")
+            语言测评
+            %small
+              %sup beta
+          .nav-collapse.collapse
+            %ul.nav
+              %li
+                -#%a(href="/events/new") 办活动
+              %li
+                -#%a(href="/event/find") 找活动
+            %ul.nav.pull-right
+              %li.divider-vertical
+              - if user_signed_in?
+                %li
+                  = link_to(current_user[:email].sub(/@.*/, ''), '')
+                %li
+                  = link_to('注销', destroy_user_session_path, :method => :delete)
+              - else
+                %li
+                  = link_to('登录', new_user_session_path)
+                %li
+                  = link_to('注册', new_user_registration_path) if devise_mapping.registerable?
+
+
+    .container.master-container(role="main" style="margin-top: 60px")
+      %ul.breadcrumb
+        -#= yield :breadcrumb
+        = render_breadcrumbs :builder => BreadcrumbsBuilder, :separator => '/', :tag => 'li'
+      - if alert
+        .alert.alert-block.alert-error
+          %button.close(type="button" data-demiss='alert') &times;
+          = alert
+      - if notice
+        .alert.alert-block.alert-info
+          %button.close(type="button" data-demiss='alert') &times;
+          = notice
+      = yield
+    %footer
+      .row.container
+        .span3
+          %h6 关于我们
+          %ul
+            %li 免费注册
+            %li dd
+        .span3
+          %h6 关于我们
+          %ul
+            %li 免费注册
+            %li dd
+      .row.container
+        %hr
+        %p &copy;Copyright 2013 Language Assessment Platform,.
+    = yield :javascripts
+
+
+

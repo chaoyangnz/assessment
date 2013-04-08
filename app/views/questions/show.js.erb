@@ -1,0 +1,44 @@
+
+
+<% unless @origin.nil? %>
+    var id = '<%= @origin.id %>'
+    $('#' + id).next().removeClass('marked')
+    $('#' + id).next().removeClass('answered')
+
+    <% if @test.question_solution(@origin).has_mark? %>
+    $('#' + id).next().addClass('marked')
+    <% end %>
+
+    <% if @test.question_solution(@origin).has_answer? %>
+    $('#' + id).next().addClass('answered')
+    <% end %>
+<% end %>
+
+<% unless @question.nil? %>
+    $('#question-zone').empty()
+    $('.current').removeClass('current')
+
+    var id = '<%= @question.id %>'
+    var html = template(id, {})
+    //切换问题
+    $('#question-zone').append(html)
+
+
+    $('#' + id).next().addClass('current')
+
+    $('#' + id).next().removeClass('marked')
+    $('#' + id).next().removeClass('answered')
+
+    <% if @test.question_solution(@question).has_mark? %>
+    $("#question-zone input[name='solution[has_mark]']").attr("checked","checked");
+    $('#' + id).next().addClass('marked')
+    <% end %>
+
+    <% if @test.question_solution(@question).has_answer? %>
+    //已经回答答案
+    $("#question-zone :radio[value='<%= @test.question_solution(@question).answer %>']").attr("checked","checked");
+    $('#' + id).next().addClass('answered')
+    <% end %>
+<% else %>
+    $('#handin-window').modal()
+<% end %>

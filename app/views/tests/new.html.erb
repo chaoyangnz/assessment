@@ -1,0 +1,20 @@
+<div id="test-form" class="well">
+  <%= simple_form_for @test, :html => {:class => 'form-horizontal'} do |f| %>
+      <fieldset>
+        <legend>试卷基本信息</legend>
+        <input type="hidden" name="paper_id" value="<%= @test.paper_id %>">
+
+        <h3><%= @test.paper.name %></h3>
+        <dl>
+          <dd>语言：<%= @test.paper.language %></dd>
+          <dd>用途：<%= @test.paper.purpose %></dd>
+          <dd>总分：<%= @test.paper.score %></dd>
+          <dd>限时：<%= @test.paper.duration %></dd>
+        </dl>
+      </fieldset>
+      <div class="form-actions">
+        <%= submit_tag '开始考试', :class => 'btn btn-primary', :confirm => '你确定立即开始考试？' %>
+        <a href="<%= url_for(:back) %>" class="btn">取消</a>
+      </div>
+  <% end %>
+</div>

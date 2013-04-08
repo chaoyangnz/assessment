@@ -1,0 +1,7 @@
+<% @uploads.each do |upload| %>
+  <div class="upload">
+  <a target="_blank" href="<%= upload.image.url %>">
+  <img src="<%= upload.image.thumb.url %>"> </a><br/>
+  <%= link_to "Remove", upload_path(upload.id), :method => :delete, 'data-confirm' => '确定要删除吗?', :remote => true %>
+  </div>  
+<% end %>

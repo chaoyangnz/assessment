@@ -1,0 +1,31 @@
+<div id="material-form" class="well">
+  <%= simple_form_for [@paper, @node], :html => {:class => 'form-horizontal'} do |f| %>
+      <fieldset>
+        <legend>材料</legend>
+
+        <input name="node[type]" type="hidden" value="<%= @node.type %>" >
+        <!--<%= f.input :type, :label => '类型', :required => true, :collection => dict(Node::TYPES), :prompt => '请选择..', :disabled => true  %>-->
+
+        <%= f.input :weight, :label => '权重', :required => true, :help => '权重影响在同一级中的问题排序'  %>
+
+        <%= f.input :media, :label => '媒体', :required => true, :collection => [dict(Node::MEDIA)[0]], :prompt => '请选择..'  %>
+
+        <%= f.input :content, :label => '材料内容', :required => true, :as => 'text', :input_html => {:rows => 4} %>
+
+        <div id="audio-uploader-div" class="control-group hide" style="margin-top: -15px">
+          <!--<label class="string optional control-label" for="node_file"></label>-->
+          <div class="controls">
+            <input type="file" id="audio-uploader" name="file" >
+          </div>
+        </div>
+
+      </fieldset>
+
+      <div class="form-actions">
+        <%= submit_tag '保存', :class => 'btn btn-primary' %>
+        <a href="<%= url_for(:back) %>" class="btn">取消</a>
+        <!--%= submit_tag '取消', :type => :reset, :class => "btn" %-->
+      </div>
+
+  <% end %>
+</div>

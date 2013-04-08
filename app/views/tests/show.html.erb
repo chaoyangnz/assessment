@@ -1,0 +1,60 @@
+<% if @test.completed? %>
+    <div id="chart"></div>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            <% score = eval(@test.score) %>
+            $('#chart').highcharts({
+                chart: {
+                    polar: true
+//                    type: 'line'
+                },
+
+                title: {
+                    text: '单项能力评估结果'
+                },
+
+                pane: {
+                    size: '80%'
+                },
+
+                xAxis: {
+                    categories: <%= raw(@test.paper.partial_papers.map { |part| part.name}.to_s) %>,
+                    tickmarkPlacement: 'on',
+                    lineWidth: 0
+                },
+
+                yAxis: {
+                    gridLineInterpolation: 'polygon',
+                    lineWidth: 0,
+                    min: 0
+                },
+
+                tooltip: {
+                    shared: true,
+                    pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
+                },
+
+//                legend: {
+//                    align: 'right',
+//                    verticalAlign: 'top',
+//                    y: 100,
+//                    layout: 'vertical'
+//                },
+
+                series: [{
+                    name: '得分',
+                    data: <%= raw(@test.paper.partial_papers.map { |part| score[part.id] }) %>,
+                    pointPlacement: 'on'
+                }]
+
+            });
+        });
+    </script>
+
+<% else %>
+    考试还在进行 <a href="<%= test_questions_path @test %>">继续答题</a>
+<% end %>

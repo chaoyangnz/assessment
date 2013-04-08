@@ -1,0 +1,18 @@
+<%= simple_form_for @part, :url => paper_part_path(@paper, @part), :html => {:class => 'form-horizontal'} do |f| %>
+    <fieldset>
+        <legend>综合试卷：<%= @paper.name %></legend>
+
+        <%= f.input :name, :label => '单项试题名称', :required => true %>
+
+        <%= f.input :score, :label => '单项分数', :required => true %>
+
+        <%= f.input :duration, :label => '限时(分)', :required => true  %>
+
+        <%= f.input :notice, :label => '注意事项', :as => 'text', :input_html => {:rows => 3} %>
+    </fieldset>
+
+    <div class="form-actions">
+      <%= submit_tag '保存', :class => 'btn btn-primary' %>
+      <a href="<%= url_for(:back) %>" class="btn">取消</a>
+    </div>
+<% end %>

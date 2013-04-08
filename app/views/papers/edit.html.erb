@@ -1,0 +1,52 @@
+<% if @paper.draft? %>
+    <div class="btn-group pull-right">
+      <%= link_to '发布试卷', publish_paper_path, :class => 'btn btn-small btn-warning', :confirm => '发布之后将不再能编辑考题，你确认发布吗？' %>
+    </div>
+<% end %>
+
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="<%= edit_paper_path(@paper) %>">试题信息</a>
+  </li>
+  <% if @paper.has_parts? %>
+      <li><a href="<%= paper_parts_path(@paper) %>" >单项设置</a></li>
+      <% @paper.partial_papers.each do |part| %>
+          <li><a href="<%= paper_nodes_path(part) %>"><%= part.name %></a></li>
+      <% end %>
+  <% else %>
+      <li><a href="<%= paper_nodes_path(@paper) %>" >试卷内容</a></li>
+  <% end %>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane fade in active" id="paper">
+
+    <div id="paper-form" class="well">
+      <%= simple_form_for @paper, :html => {:class => 'form-horizontal'} do |f| %>
+          <fieldset>
+            <legend>试卷基本信息</legend>
+            <!--%= render 'form', :f => f %-->
+            <%= f.input :name, :label => '试卷名称', :required => true, :help => '给你的试题取一个合适的名字，如：日语2012年JETEST' %>
+
+            <%= f.input :language, :label => '语言', :required => true, :collection => dict(Paper::LANGUAGES), :prompt => '请选择..'  %>
+
+            <%= f.input :purpose, :label => '试卷用途', :required => true, :collection => dict(Paper::PURPOSES), :prompt => '请选择..' %>
+
+            <%= f.input :score, :label => '总分数', :required => true %>
+
+            <%= f.input :duration, :label => '限时(分)', :required => true  %>
+
+            <%= f.input :notice, :label => '注意事项', :as => 'text', :input_html => {:rows => 3} %>
+          </fieldset>
+
+          <div class="form-actions">
+            <%= submit_tag '保存', :class => 'btn btn-primary' %>
+            <a href="<%= url_for(:back) %>" class="btn">取消</a>
+            <!--%= submit_tag '取消', :type => :reset, :class => "btn" %-->
+          </div>
+
+      <% end %>
+    </div>
+
+  </div>
+</div>

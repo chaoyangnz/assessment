@@ -1,0 +1,85 @@
+
+<div class="btn-group pull-right">
+  <a class="btn btn-small btn-success" href="<%= new_paper_node_path(@paper, :type => 'material') %>">新增题干</a>
+  <a class="btn btn-small btn-success" href="<%= new_paper_node_path(@paper, :type => 'question')  %>">新增问题</a>
+</div>
+
+<ul class="nav nav-tabs">
+  <li>
+    <a href="<%= edit_paper_path(@paper.partial? ? @paper.general_paper : @paper) %>">试卷信息</a>
+  </li>
+  <% if @paper.partial? %>
+      <li><a href="<%= paper_parts_path(@paper.general_paper) %>" >单项设置</a></li>
+      <% @paper.general_paper.partial_papers.each do |part| %>
+          <li class="<%= 'active' if part.id == @paper.id %>"><a href="<%= paper_nodes_path(part) %>"><%= part.name %></a></li>
+      <% end %>
+  <% else %>
+      <li class="active"><a href="<%= paper_nodes_path(@paper) %>" >试卷内容</a></li>
+  <% end %>
+</ul>
+
+总分：<%= @paper.score %>
+限时：<%= @paper.duration %>
+
+<div class="tab-content">
+  <div class="tab-pane fade in active" id="questions">
+    <% num = 0 %>
+    <% @nodes.each do |node| %>
+    <dl>
+      <% if node.material? %>
+          <dt style="position: relative">
+            <% if node.media == 'audio' %>
+            <audio src='<%= node.content %>' preload="preload" />
+            <% else %>
+            <%= node.content %>
+            <% end %>
+
+            <div class="bar hide" style="position: absolute; top: 0px; right: 0px">
+              <a class="btn btn-mini" href="<%= edit_paper_node_path(@paper, node) %>">编辑</a>
+              <a class="btn btn-mini btn-danger" href="<%= paper_node_path(@paper, node) %>">删除</a>
+             </div>
+          </dt>
+          <% node.questions.each do |question| %>
+              <dd style="position: relative">
+                <span style="border: solid 1px"><%= num += 1 %></span>.
+                <% if question.media == 'audio' %>
+                    <audio src='<%= question.content %>' preload="none" autobuffer="true"></audio>
+                <% else %>
+                    <%= question.content %>
+                <% end %>
+
+                <div class="bar hide" style="position: absolute; top: 0px; right: 0px">
+                  <a class="btn btn-mini" href="<%= edit_paper_node_path(@paper, question) %>">编辑</a>
+                  <a class="btn btn-mini btn-danger" href="<%= paper_node_path(@paper, question) %>">删除</a>
+                </div>
+                <ol>
+                <% question.choices.each do |choice| %>
+                  <li class="<%= 'answer' if choice.is_answer? %>"><%= choice.content %> </li>
+                <% end %>
+                </ol>
+
+              </dd>
+          <% end %>
+      <% else %>
+          <dd style="position: relative">
+            <span style="border: solid 1px"><%= num += 1 %></span>.
+            <% if node.media == 'audio' %>
+                <audio src='<%= node.content %>' preload="none" autobuffer="true"></audio>
+            <% else %>
+                <%= node.content %>
+            <% end %>
+            <div class="bar hide" style="float: right;">
+              <a class="btn btn-mini" href="<%= edit_paper_node_path(@paper, node) %>">编辑</a>
+              <a class="btn btn-mini btn-danger" href="<%= paper_node_path(@paper, node) %>">删除</a>
+            </div>
+            <ol>
+              <% node.choices.each do |choice| %>
+                  <li><%= choice.content %></li>
+              <% end %>
+            </ol>
+          </dd>
+      <% end %>
+    </dl>
+    <% end %>
+  </div>
+</div>

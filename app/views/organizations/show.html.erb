@@ -1,0 +1,23 @@
+<dl>
+  <dt>机构名称</dt>
+  <dd><%= @organization.name %></dd>
+  <dt>机构地址</dt>
+  <dd><%= @organization.address %></dd>
+  <dt>联系电话</dt>
+  <dd><%= @organization.telephone %></dd>
+  <dt>管理员</dt>
+  <dd><%= @organization.admin.username %></dd>
+  <dd><%= @organization.admin.email %></dd>
+</dl>
+
+<table class="table table-striped">
+  <thead>
+  机构员工
+  </thead>
+  <% @organization.members.each do |member| %>
+  <tr>
+    <td><%= member.username %></td>
+    <td><%= member.email %></td>
+  </tr>
+  <% end %>
+</table>

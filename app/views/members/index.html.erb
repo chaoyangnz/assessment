@@ -1,0 +1,44 @@
+<a href="<%= new_member_path %>" class="btn btn-small btn-success pull-right">新增人员</a>
+
+<table class="table table-striped">
+  <caption></caption>
+  <thead>
+  <tr>
+    <th>用户名</th>
+    <th>email</th>
+    <th>注册状态</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @members.blank? %>
+      <tr placeholder>
+        <td colspan="4">未添加任何员工</td>
+      </tr>
+  <% else %>
+      <% @members.each do |member| %>
+          <tr>
+            <td><%= member.username %></td>
+            <td><a href="<%= member_path(member) %>"><%= member.email %></a></td>
+            <td>
+              <% if member.invitation_accepted? %>
+              已接受邀请并注册
+              <% elsif member.invited_to_sign_up? %>
+                  <%= member.invitation_token %>
+                  <span class="icon-paste clippy" title="拷贝邀请地址" data-text="<%= url_for(:controller => '/devise/invitations', :action => 'edit', :invitation_token => member.invitation_token, :only_path => false) %>"></span>
+              <% else %>
+              未邀请注册
+              <% end %>
+            </td>
+            <td>
+              <a href="<%= member_path(member) %>" data-method="DELETE" class="btn btn-danger btn-mini">删除</a>
+              <!--<a href="<%= edit_member_path(member) %>" class="btn btn-mini">编辑</a>-->
+            </td>
+          </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+  <tfoot>
+
+  </tfoot>
+</table>

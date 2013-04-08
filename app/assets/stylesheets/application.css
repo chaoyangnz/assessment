@@ -1,0 +1,100 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require bootstrap
+ *= require todc-bootstrap
+ *= require uploadify
+ *
+ *= require questions
+ *
+ */
+
+/*必输项提示*/
+label.redstar:before {
+    content: "* ";
+    color: red;
+    font-size: 1.2em;
+}
+
+label.required abbr {
+  color: red
+}
+
+select option[value=""] {
+  color: gray;
+  font-size: 2em;
+}
+
+/* Customize audio.js */
+.audiojs {
+    display: inline-block;
+    vertical-align: middle;
+    height: 22px; background: #404040;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #444), color-stop(0.5, #555), color-stop(0.51, #444), color-stop(1, #444));
+    background-image: -moz-linear-gradient(center top, #444 0%, #555 50%, #444 51%, #444 100%);
+    -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); -moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+    -o-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); }
+.audiojs .play-pause { width: 15px; height: 20px; padding: 0px 8px 0px 0px; }
+.audiojs p { width: 25px; height: 20px; margin: -3px 0px 0px -1px; }
+.audiojs .scrubber { background: #5a5a5a; width: 310px; height: 5px; margin: 7px; }
+.audiojs .progress { height: 5px; width: 0px; background: #ccc;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccc), color-stop(0.5, #ddd), color-stop(0.51, #ccc), color-stop(1, #ccc));
+    background-image: -moz-linear-gradient(center top, #ccc 0%, #ddd 50%, #ccc 51%, #ccc 100%); }
+.audiojs .loaded { height: 10px; background: #000;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #222), color-stop(0.5, #333), color-stop(0.51, #222), color-stop(1, #222));
+    background-image: -moz-linear-gradient(center top, #222 0%, #333 50%, #222 51%, #222 100%); }
+.audiojs .time { float: left; height: 25px; line-height: 25px; }
+.audiojs .error-message { height: 24px;line-height: 24px; }
+
+
+
+/*-------------Layout----------------------------*/
+header .navbar-inner {
+    height: 40px;
+    padding-top: 10px;
+    border-bottom: #808080 solid 1px;
+    background-image: url(/assets/header-bg.png)
+}
+
+.navbar .divider-vertical {
+    border-left: 1px solid #ccc;
+}
+
+footer {
+    margin-top: 40px;
+    background-image: url(/assets/footer-bg.jpg);
+    border-top: #ccc solid 1px;
+}
+
+footer h6 {
+    margin-left: 24px;
+}
+
+footer ul {
+    list-style: none;
+    border-left: #ccc solid 2px;
+    padding-left: 5px;
+}
+
+footer hr {
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, .15), transparent);
+    background-image: -moz-linear-gradient(left, transparent, rgba(0, 0, 0, .15), transparent);
+    background-image: -ms-linear-gradient(left, transparent, rgba(0, 0, 0, .15), transparent);
+    background-image: -o-linear-gradient(left, transparent, rgba(0, 0, 0, .15), transparent);
+    border: 0;
+
+    margin: 20px 0 10px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #fff;
+}
+
+

@@ -1,0 +1,31 @@
+<table class="table table-striped">
+  <caption></caption>
+  <thead>
+  <tr>
+    <th>试卷名称</th>
+    <th>语言</th>
+    <th>用途</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @papers.blank? %>
+      <tr placeholder>
+        <td colspan="4">本综合试卷未划分单项试题</td>
+      </tr>
+  <% end %>
+  <% @papers.each do |paper| %>
+      <tr>
+        <td><%= paper.name %></td>
+        <td><%= paper.language %></td>
+        <td><%= paper.purpose %></td>
+        <td>
+          <a href="<%= new_test_path(:paper_id => paper.id) %>" class="btn btn-mini btn-success">现在考试</a>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+  <tfoot>
+
+  </tfoot>
+</table>

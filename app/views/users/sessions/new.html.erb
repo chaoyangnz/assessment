@@ -1,0 +1,43 @@
+<div class="row show-grid">
+  <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {class:'form-vertical well row span4'}) do |f| %>
+    <fieldset>
+      <legend>帐号登录</legend>
+      <!-- insert control groups here -->
+      <div class="control-group">
+        <label class="control-label" for="">电子邮箱或用户名</label>
+        <div class="controls">
+          <!--<div class="input-prepend input-append">-->
+          <input name="user[login]" type="text" class="span4" placeholder="Username or email">
+          <!--</div>-->
+          <!--<span class="help-inline"></span>-->
+          <!--<p class="help-block"></p>-->
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="">密码</label>
+        <div class="controls">
+          <!--<div class="input-prepend input-append">-->
+          <input name="user[password]" type="password" class="span4" placeholder="password">
+          <!--</div>-->
+          <!--<span class="help-inline"></span>-->
+          <!--<p class="help-block"></p>-->
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox" name="user[remember_me]"/> 记住我 (公用或共享计算机请勿勾选)
+          </label>
+        </div>
+      </div>
+      <hr/>
+      <button type="submit" class="btn btn-large btn-success" data-loading-text="登录中...">&nbsp;&nbsp;安全登录&nbsp;&nbsp;</button>
+      <%= render "users/shared/links" %>
+    </fieldset>
+  <% end %>
+
+  <div class="span7 pull-right">
+    <p>ddd</p>
+  </div>
+
+</div>

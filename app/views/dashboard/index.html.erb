@@ -1,0 +1,9 @@
+<% if current_user.root? %>
+    <a href="<%= organizations_path %>">机构管理</a>
+    <a href="<%= papers_path %>">试卷管理</a>
+<% elsif current_user.admin? %>
+    <a href="<%= members_path %>">人员管理</a>
+<% else %>
+    <a href="<%= take_tests_path %>">参加考试</a>
+    <a href="<%= tests_path %>">考试历史</a>
+<% end %>

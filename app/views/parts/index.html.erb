@@ -1,0 +1,48 @@
+<a href="<%= new_paper_part_path(@paper) %>" class="btn btn-small btn-success pull-right">新增单项</a>
+
+<ul class="nav nav-tabs">
+  <li>
+    <a href="<%= edit_paper_path(@paper) %>">试题信息</a>
+  </li>
+  <% if @paper.has_parts? %>
+      <li class="active"><a href="<%= paper_parts_path(@paper) %>" >单项设置</a></li>
+      <% @paper.partial_papers.each do |part| %>
+          <li><a href="<%= paper_nodes_path(part) %>"><%= part.name %></a></li>
+      <% end %>
+  <% else %>
+      <li><a href="<%= paper_nodes_path(@paper) %>" >试卷内容</a></li>
+  <% end %>
+</ul>
+
+<table class="table table-striped">
+  <caption></caption>
+  <thead>
+  <tr>
+    <th>单项试卷名称</th>
+    <th>分数</th>
+    <th>限时（分）</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @parts.blank? %>
+      <tr placeholder>
+        <td colspan="4">本综合试卷未划分单项试题</td>
+      </tr>
+  <% end %>
+  <% @parts.each do |part| %>
+      <tr>
+        <td><%= part.name %></td>
+        <td><%= part.score %></td>
+        <td><%= part.duration %></td>
+        <td>
+          <a href="<%= paper_part_path(@paper, part) %>" data-method="DELETE" class="btn btn-danger btn-mini">删除</a>
+          <a href="<%= edit_paper_part_path(@paper, part) %>" class="btn btn-mini">编辑</a>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+  <tfoot>
+
+  </tfoot>
+</table>

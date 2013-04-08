@@ -1,0 +1,38 @@
+<a href="<%= new_paper_path %>" class="btn btn-small btn-success pull-right">新增试卷</a>
+
+<table class="table table-striped">
+  <caption></caption>
+  <thead>
+  <tr>
+    <th>试卷名称</th>
+    <th>语言</th>
+    <th>用途</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @papers.blank? %>
+      <tr placeholder>
+        <td colspan="4">本综合试卷未划分单项试题</td>
+      </tr>
+  <% end %>
+  <% @papers.each do |paper| %>
+      <tr>
+        <td><a href="<%= paper_path(paper) %>"><%= paper.name %></a></td>
+        <td><%= paper.language %></td>
+        <td><%= paper.purpose %></td>
+        <td>
+          <!--<a href="<%= paper_path(paper) %>" data-method="DELETE" class="btn btn-danger btn-mini">删除</a>-->
+          <% if paper.public? %>
+              已发布
+          <% else %>
+              <a href="<%= edit_paper_path(paper) %>" class="btn btn-mini">编辑</a>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+  <tfoot>
+
+  </tfoot>
+</table>

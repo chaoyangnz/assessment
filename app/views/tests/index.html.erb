@@ -1,0 +1,41 @@
+<a href="<%= take_tests_path %>" class="btn btn-small btn-success pull-right">现在考试</a>
+
+<table class="table table-striped">
+  <caption></caption>
+  <thead>
+  <tr>
+    <th>试卷名称</th>
+    <th>语言</th>
+    <th>用途</th>
+    <th>考试时间</th>
+    <th>状态</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @tests.blank? %>
+      <tr placeholder>
+        <td colspan="5">您还未参加任何考试</td>
+      </tr>
+  <% end %>
+  <% @tests.each do |test| %>
+      <tr class="<%= test.completed? ? '' : 'warning' %>">
+        <td><%= test.paper.name %></td>
+        <td><%= test.paper.language %></td>
+        <td><%= test.paper.purpose %></td>
+        <td>
+          <%= test.started_at %>
+        </td>
+        <td>
+          <% if test.completed? %>
+              <a class="btn btn-success" href='<%= test_path(test) %>'>查看成绩报告</a>
+          <% else %>
+              <a class="btn btn-warning" href='<%= test_questions_path(test) %>'>继续考试答题</a>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+  <tfoot>
+
+  </tfoot>
+</table>
