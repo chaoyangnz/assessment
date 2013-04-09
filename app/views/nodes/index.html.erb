@@ -74,7 +74,7 @@
             </div>
             <ol>
               <% node.choices.each do |choice| %>
-                  <li><%= choice.content %></li>
+                  <li class="<%= 'answer' if choice.is_answer? %>"><%= choice.content %></li>
               <% end %>
             </ol>
           </dd>

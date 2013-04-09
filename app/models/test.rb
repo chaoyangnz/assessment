@@ -13,7 +13,7 @@ class Test < ActiveRecord::Base
   end
 
   def expired?
-    (Time.now - started_at - 30)/60 > paper.duration # 30秒交卷时间
+    ! handed_in? && (Time.now - started_at - 30)/60 > paper.duration # 30秒交卷时间
   end
 
   def completed?

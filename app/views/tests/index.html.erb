@@ -28,6 +28,8 @@
         <td>
           <% if test.completed? %>
               <a class="btn btn-success" href='<%= test_path(test) %>'>查看成绩报告</a>
+          <% elsif test.expired? %>
+              超时未交卷
           <% else %>
               <a class="btn btn-warning" href='<%= test_questions_path(test) %>'>继续考试答题</a>
           <% end %>
