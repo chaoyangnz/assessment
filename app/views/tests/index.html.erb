@@ -26,7 +26,7 @@
           <%= test.started_at %>
         </td>
         <td>
-          <% if test.completed? %>
+          <% if test.handed_in? %>
               <a class="btn btn-success" href='<%= test_path(test) %>'>查看成绩报告</a>
           <% elsif test.expired? %>
               超时未交卷

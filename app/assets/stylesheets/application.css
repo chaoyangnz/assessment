@@ -11,6 +11,7 @@
  *= require bootstrap
  *= require todc-bootstrap
  *= require uploadify
+ *= require bootstrap-wysihtml5
  *
  *= require questions
  *
@@ -95,6 +96,10 @@ footer hr {
     border: 0;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #fff;
+}
+
+.rich-editor {
+    width: 710px;
 }
 
 

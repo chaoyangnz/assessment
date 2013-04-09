@@ -10,7 +10,7 @@
 
         <%= f.input :media, :label => '媒体', :required => true, :collection => dict(Node::MEDIA), :prompt => '请选择..' %>
 
-        <%= f.input :content, :label => '问题', :required => true, :as => 'text', :input_html => {:rows => 4} %>
+        <%= f.input :content, :label => '问题', :required => true, :as => 'text', :input_html => {:rows => 8, :class => 'rich-editor'} %>
 
         <div id="audio-uploader-div" class="control-group hide" style="margin-top: -15px">
           <!--<label class="string optional control-label" for="node_file"></label>-->

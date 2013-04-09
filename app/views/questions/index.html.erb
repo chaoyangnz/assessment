@@ -57,9 +57,9 @@
             <script type="text/html" id="<%= question.id %>" class="question-template">
             <div>
               <%= question.paper.name %>
-              <div><%= question.material.content unless question.material.nil? %></div>
+              <div><%= raw(question.material.content) unless question.material.nil? %></div>
               <dl>
-                <dt><%= i + 1 %>. <%= question.content %></dt>
+                <dt><%= i + 1 %>. <%= raw(question.content) %></dt>
                 <dd>
                   <ol>
                     <%= simple_form_for @test.question_solution(question), :url => test_question_solution_path(@test, question), :remote => true, :html => {:class => 'form-horizontal'} do |f| %>

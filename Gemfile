@@ -42,6 +42,8 @@ gem 'carrierwave'
 
 gem 'breadcrumbs_on_rails'
 
+gem 'bootstrap-wysihtml5-rails'
+
 # send ruby data to js
 gem 'gon'
 

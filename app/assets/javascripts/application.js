@@ -16,6 +16,7 @@
 //= require template
 //= require audio
 //= require jquery.uploadify
+//= require bootstrap-wysihtml5
 
 
 //= require plugins/jquery.clippy
@@ -52,6 +53,8 @@ $("form").on('ajax:complete', function(e) {
     var element = $(this);
     element.find("[type=submit]").button('reset')
 })
+
+$('.rich-editor').wysihtml5({"image": false});
 
 // enable popover
 $('[rel="popover"]').popover()
