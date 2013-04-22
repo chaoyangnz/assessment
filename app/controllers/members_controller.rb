@@ -33,4 +33,14 @@ class MembersController < ApplicationController
 
     add_breadcrumb '考试历史', member_path(@member)
   end
+
+  def destroy
+    @member = User.find(params[:id])
+
+    if @member.update_attribute(:status, :deleted)
+      redirect_to members_path
+    else
+      render 'index'
+    end
+  end
 end

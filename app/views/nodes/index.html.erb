@@ -36,7 +36,7 @@
 
             <div class="bar hide" style="position: absolute; top: 0px; right: 0px">
               <a class="btn btn-mini" href="<%= edit_paper_node_path(@paper, node) %>">编辑</a>
-              <a class="btn btn-mini btn-danger" href="<%= paper_node_path(@paper, node) %>">删除</a>
+              <%= link_to '删除', paper_node_path(@paper, node), :method => 'DELETE', :confirm => '你确定删除此题干?', :class => 'btn btn-mini btn-danger'  %>
              </div>
           </dt>
           <% node.questions.each do |question| %>
@@ -50,7 +50,7 @@
 
                 <div class="bar hide" style="position: absolute; top: 0px; right: 0px">
                   <a class="btn btn-mini" href="<%= edit_paper_node_path(@paper, question) %>">编辑</a>
-                  <a class="btn btn-mini btn-danger" href="<%= paper_node_path(@paper, question) %>">删除</a>
+                  <%= link_to '删除', paper_node_path(@paper, question), :method => 'DELETE', :confirm => '你确定删除此考题?', :class => 'btn btn-mini btn-danger'  %>
                 </div>
                 <ol>
                 <% question.choices.each do |choice| %>
@@ -70,7 +70,7 @@
             <% end %>
             <div class="bar hide" style="float: right;">
               <a class="btn btn-mini" href="<%= edit_paper_node_path(@paper, node) %>">编辑</a>
-              <a class="btn btn-mini btn-danger" href="<%= paper_node_path(@paper, node) %>">删除</a>
+              <%= link_to '删除', paper_node_path(@paper, node), :method => 'DELETE', :confirm => '你确定删除此题目?', :class => 'btn btn-mini btn-danger'  %>
             </div>
             <ol>
               <% node.choices.each do |choice| %>

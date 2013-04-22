@@ -40,6 +40,17 @@ class PartsController < ApplicationController
     end
   end
 
+  def destroy
+    @part = Paper.find(params[:id])
+
+    if @part.update_attribute(:status, :deleted)
+      redirect_to paper_parts_path(@paper), :notice => '删除成功'
+    else
+      render paper_parts_path(@paper)
+    end
+
+  end
+
   private
   def load_paper
     @paper = Paper.find(params[:paper_id])

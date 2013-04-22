@@ -36,10 +36,17 @@ class User < ActiveRecord::Base
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions).where(["(lower(username) = :value OR lower(email) = :value) and status is null", { :value => login.downcase }]).first
     else
       where(conditions).first
     end
   end
+
+  #-------------------验证-------------------------------------
+  validates :email,
+            :presence => true,
+            :uniqueness => true,
+            :format => {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
+  validates :username, :uniqueness => true, :if => '! username.blank?'
 
 end

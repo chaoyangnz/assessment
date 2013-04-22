@@ -24,9 +24,12 @@
         <td>
           <!--<a href="<%= paper_path(paper) %>" data-method="DELETE" class="btn btn-danger btn-mini">删除</a>-->
           <% if paper.public? %>
-              已发布
-          <% else %>
+              <span class="icon-ok-sign text-success">已发布</span>
+          <% elsif paper.draft? %>
               <a href="<%= edit_paper_path(paper) %>" class="btn btn-mini">编辑</a>
+              <%= link_to '删除', paper_path(paper), :method => 'DELETE', :confirm => '你确定要删除此试卷吗？', :class => 'btn btn-mini btn-danger' %>
+          <% elsif paper.deleted? %>
+              <span class="icon-warning-sign text-warning">已删除</span>
           <% end %>
         </td>
       </tr>

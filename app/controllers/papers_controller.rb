@@ -53,6 +53,16 @@ class PapersController < ApplicationController
     end
   end
 
+  def destroy
+    @paper = Paper.find(params[:id])
+
+    if @paper.update_attribute(:status, :deleted)
+      redirect_to papers_path
+    else
+      render 'index'
+    end
+  end
+
   def publish
     @paper = Paper.find(params[:id])
     if @paper.update_attribute(:status, 'public')

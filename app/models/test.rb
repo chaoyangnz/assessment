@@ -1,13 +1,15 @@
 class Test < ActiveRecord::Base
-  #attr_accessible :mode
 
+  #------------------------关系-----------------------------------------------
   belongs_to :user
   belongs_to :paper
 
   has_many :solutions
 
+  #----------------------回调------------------------------------------------
   after_create :create_solutions
 
+  ##--------------------自定义状态方法----------------------------------------
   def handed_in?
     ! ended_at.blank?
   end
@@ -20,6 +22,7 @@ class Test < ActiveRecord::Base
     handed_in? || expired?
   end
 
+  #-------------------------查询方法------------------------------
   def question_solution(question)
     if question.class == Node
       solutions.where(:node_id => question.id).first
