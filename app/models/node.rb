@@ -20,8 +20,8 @@ class Node < ActiveRecord::Base
 
   belongs_to :paper
 
-  belongs_to :material, :class_name => 'Node', :conditions => "type = 'material'", :foreign_key => 'node_id'
-  has_many :questions, :class_name => 'Node', :conditions => "type = 'question'", :dependent => :nullify
+  belongs_to :material, :class_name => 'Node', :foreign_key => 'node_id'
+  has_many :questions, :class_name => 'Node', :dependent => :nullify
 
   has_many :choices, :dependent => :destroy
 

@@ -1,6 +1,11 @@
 # -*- encoding : utf-8 -*-
 class TestsController < ApplicationController
 
+  before_filter :can_index, :only => [:index]
+  before_filter :can_show, :only => [:show]
+  before_filter :can_create, :only => [:new, :create, :take]
+  before_filter :can_update, :only => [:edit, :update, :destroy]
+
   add_breadcrumb '考试列表', :tests_path
 
   def index
@@ -29,7 +34,7 @@ class TestsController < ApplicationController
 
   # post交卷 update
   def update
-    @test = Test.find(params[:id])
+    #@test = Test.find(params[:id])
 
     @test.ended_at =  Time.now
     @test.score = @test.compute_score.to_s
@@ -41,12 +46,31 @@ class TestsController < ApplicationController
 
   # get结果
   def show
-    @test = Test.find(params[:id])
+    #@test = Test.find(params[:id])
   end
 
   def take
     @papers = Paper.where(:type => 'general', :status => 'public')
 
     add_breadcrumb '参加考试', take_tests_path
+  end
+
+  private
+  def can_index
+    render_404 unless current_user.member?
+  end
+
+  def can_show
+    @test = Test.find(params[:id])
+    render_404 unless current_user.member? && @test.user_id == current_user.id && @test.completed?
+  end
+
+  def can_create
+    render_404 unless current_user.member?
+  end
+
+  def can_update
+    @test = Test.find(params[:id])
+    render_404 unless current_user.member? && @test.user_id == current_user.id
   end
 end

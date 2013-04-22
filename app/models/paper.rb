@@ -51,7 +51,8 @@ class Paper < ActiveRecord::Base
   ##--------------------------------------查询方法--------------------------------------------------------------
   def questions
     if partial?
-      nodes.where(:depth => 1).order('weight asc').map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
+      #nodes.where(:depth => 1).order('weight asc').map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
+      Node.find_by_sql(["select * from nodes where paper_id = ? and (type = 'material' or node_id is null) order by weight asc", id]).map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
     else
       partial_papers.map {|part| part.questions }.inject(:+)
     end

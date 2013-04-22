@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   validates :email,
             :presence => true,
             :uniqueness => true,
-            :format => {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
+            :format => {:with => /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/i}
   validates :username, :uniqueness => true, :if => '! username.blank?'
 
 end

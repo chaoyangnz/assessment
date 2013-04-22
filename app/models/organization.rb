@@ -14,7 +14,8 @@ class Organization < ActiveRecord::Base
     organization = Organization.new(org_params)
     admin = User.new(admin_params)
 
-    if organization.valid? && admin.valid?
+    if organization.valid?
+      puts '-------------------------------------'
       transaction do
         organization.save!
 

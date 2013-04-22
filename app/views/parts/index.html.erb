@@ -36,8 +36,8 @@
         <td><%= part.score %></td>
         <td><%= part.duration %></td>
         <td>
-          <%= link_to '删除', paper_part_path(@paper, part), :method => 'DELETE', :confirm => '你确定删除此单项，其下的所有考题也将一并删除?', :class => 'btn btn-danger btn-mini' %>
-          <a href="<%= edit_paper_part_path(@paper, part) %>" class="btn btn-mini">编辑</a>
+           <a href="<%= edit_paper_part_path(@paper, part) %>" class="btn btn-mini">编辑</a>
+           <%= link_to '删除', paper_part_path(@paper, part), :method => 'DELETE', :confirm => '你确定删除此单项，其下的所有考题也将一并删除?', :class => 'btn btn-danger btn-mini' %>
         </td>
       </tr>
   <% end %>

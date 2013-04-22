@@ -52,7 +52,7 @@
 <div class="container" style="border: #ccc solid 1px; padding: 15px; ">
 <% if @test.paper.has_parts? %>
     <% @test.paper.partial_papers.each_with_index do |part, j| %>
-
+        <h4><span class="badge badge-important"><%= part.name %></span></h4>
         <% part.questions.each_with_index do |question, i| %>
             <script type="text/html" id="<%= question.id %>" class="question-template">
             <div>

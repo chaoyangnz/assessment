@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 class OrganizationsController < ApplicationController
 
+  before_filter :can_resources, :only => [:index, :new, :create]
+  before_filter :can_resource, :only => [:show, :edit, :update, :destroy]
+
   def index
     @organizations = Organization.all
   end
@@ -20,11 +23,9 @@ class OrganizationsController < ApplicationController
   end
 
   def edit
-    @organization = Organization.find(params[:id])
   end
 
   def update
-    @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
        redirect_to  organization_path(@organization), :notice => '更新机构成功'
     end
@@ -32,6 +33,17 @@ class OrganizationsController < ApplicationController
 
   def show
     @organization = Organization.find(params[:id])
+  end
+
+
+  private
+  def can_resources
+    render_404 unless current_user.root?
+  end
+
+  def can_resource
+    @organization = Organization.find(params[:id])
+    render_404 unless current_user.root?
   end
 
 end

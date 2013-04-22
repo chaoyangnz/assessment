@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 class NodesController < ApplicationController
-  before_filter :load_paper
+  before_filter :can_index, :only => [:index]
+  before_filter :can_show, :only => [:show]
+  before_filter :can_create, :only => [:new, :create]
+  before_filter :can_update, :only => [:edit, :update, :destroy]
 
   def index
     #@nodes = Node.order('weight asc').where(:depth => 1, :paper_id => @paper.id).map do |node|
@@ -41,7 +44,7 @@ class NodesController < ApplicationController
   end
 
   def edit
-    @node = Node.find(params[:id])
+    #@node = Node.find(params[:id])
 
     if @node.material?
       render 'edit_material'
@@ -52,7 +55,7 @@ class NodesController < ApplicationController
   end
 
   def update
-    @node = Node.find(params[:id])
+    #@node = Node.find(params[:id])
     @node.assign_attributes(params[:node])
     #@node.depth = @node.material? || @node.node_id.blank? ? 1 : 2
 
@@ -64,7 +67,7 @@ class NodesController < ApplicationController
   end
 
   def destroy
-    @node = Node.find(params[:id])
+    #@node = Node.find(params[:id])
 
     if  @node.destroy
       redirect_to paper_nodes_path(@paper), :notice => '删除成功'
@@ -75,9 +78,54 @@ class NodesController < ApplicationController
   end
 
   private
-  def load_paper
+  #def load_paper
+  #  @paper = Paper.find(params[:paper_id])
+  #  # 只允许单项以及没有任何单项的综合试卷允许编辑考试题
+  #  render_404 if @paper.general? && @paper.has_parts?
+  #end
+
+  def can_index
     @paper = Paper.find(params[:paper_id])
-    # 只允许单项以及没有任何单项的综合试卷允许编辑考试题
-    render_404 if @paper.general? && @paper.has_parts?
+    render_404 and return unless current_user.root?
   end
+
+  def can_create
+    @paper = Paper.find(params[:paper_id])
+    render_404 and return unless current_user.root?
+
+    if @paper.general?
+      render_404 and return if @paper.has_parts?
+      render_404 and return unless @paper.draft?
+    end
+
+    if @paper.partial?
+      render_404 and return if @paper.deleted?
+      render_404 and return unless @paper.general_paper.draft?
+    end
+  end
+
+  def can_show
+    @paper = Paper.find(params[:paper_id])
+    @node = Node.find(params[:id])
+
+    render_404 and return unless current_user.root?
+  end
+
+  def can_update
+    @paper = Paper.find(params[:paper_id])
+    @node = Node.find(params[:id])
+
+    render_404 and return unless current_user.root?
+
+    if @paper.general?
+      render_404 and return if @paper.has_parts?
+      render_404 and return unless @paper.draft?
+    end
+
+    if @paper.partial?
+      render_404 and return if @paper.deleted?
+      render_404 and return unless @paper.general_paper.draft?
+    end
+  end
+
 end
