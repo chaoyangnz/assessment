@@ -40,12 +40,12 @@ class OrganizationsController < ApplicationController
 
   private
   def can_resources
-    render_404 and return unless current_user.root?
+    render_404 unless current_user.root?
   end
 
   def can_resource
     @organization = Organization.find(params[:id])
-    render_404 and return unless current_user.root?
+    render_404 unless current_user.root?
   end
 
 end
