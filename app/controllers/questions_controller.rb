@@ -6,14 +6,16 @@ class QuestionsController < ApplicationController
 
   # 考题逐题显示
   def index
-    @question = @test.paper.questions.first
-    @solution = @test.question_solution(@question)
+    #@question = @test.paper.questions.first
+    #@solution = @test.question_solution(@question)
 
     add_breadcrumb '答题', test_questions_path(@test)
   end
 
   def show
     @question = Node.find(params[:id])
+
+    @question_id = @question.id
   end
 
   private

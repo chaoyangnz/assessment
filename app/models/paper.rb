@@ -49,12 +49,23 @@ class Paper < ActiveRecord::Base
   validates :duration, length: { maximum: 5 }, numericality: { only_integer: true }
 
   ##--------------------------------------查询方法--------------------------------------------------------------
-  def questions
+  def top_nodes
     if partial?
-      #nodes.where(:depth => 1).order('weight asc').map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
-      Node.find_by_sql(["select * from nodes where paper_id = ? and (type = 'material' or node_id is null) order by weight asc", id]).map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
+      Node.find_by_sql(["select * from nodes where (type='material' or node_id is null) and paper_id = ? order by weight asc", id]).map do |node|
+        node.questions.sort!() if node.material?
+        node
+      end
     else
       partial_papers.map {|part| part.questions }.inject(:+)
     end
   end
+
+  #def questions
+  #  if partial?
+  #    #nodes.where(:depth => 1).order('weight asc').map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
+  #    Node.find_by_sql(["select * from nodes where paper_id = ? and (type = 'material' or node_id is null) order by weight asc", id]).map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
+  #  else
+  #    partial_papers.map {|part| part.questions }.inject(:+)
+  #  end
+  #end
 end

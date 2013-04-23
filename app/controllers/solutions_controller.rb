@@ -4,12 +4,11 @@ class SolutionsController < ApplicationController
 
   # 选择答案
   def update
-    solution = @test.question_solution(@question)
-    if solution.update_attributes(params[:solution])
-        @origin = @question
-        if params.has_key? :next
-          @question = params[:next].blank? ? nil : Node.find(params[:next])
-        end
+    @solution = @test.question_solution(@question)
+
+    @orginal = @question
+    @question_id = params[:next_id]
+    if @solution.update_attributes(params[:solution])
       render 'questions/show', :layout => false
     end
   end

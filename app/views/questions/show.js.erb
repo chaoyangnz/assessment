@@ -1,43 +1,49 @@
+$('#question-zone').empty()
+$('.current').removeClass('current')
 
 
-<% unless @origin.nil? %>
-    var id = '<%= @origin.id %>'
-    $('#' + id).next().removeClass('marked')
-    $('#' + id).next().removeClass('answered')
 
-    <% if @test.question_solution(@origin).has_mark? %>
-    $('#' + id).next().addClass('marked')
+<% unless @question_id.blank? %>
+    //存在有变化的原题
+    <% unless @orginal.nil? %>
+        var orginal_id = '<%= @orginal.id %>'
+        var orginal_nav = $('#' + orginal_id).next('.nav')
+
+        orginal_nav.removeClass('marked')
+        orginal_nav.removeClass('answered')
+        <% orginal_solution = @test.question_solution(@orginal) %>
+
+        <% if orginal_solution.has_mark? %>
+            orginal_nav.addClass('marked')
+        <% end %>
+        <% if orginal_solution.has_answer? %>
+            orginal_nav.addClass('answered')
+        <% end %>
     <% end %>
 
-    <% if @test.question_solution(@origin).has_answer? %>
-    $('#' + id).next().addClass('answered')
-    <% end %>
-<% end %>
 
-<% unless @question.nil? %>
-    $('#question-zone').empty()
-    $('.current').removeClass('current')
-
-    var id = '<%= @question.id %>'
+    var id = '<%= @question_id %>'
+    var nav = $('#' + id).next('.nav')
     var html = template(id, {})
     //切换问题
     $('#question-zone').append(html)
 
+    nav.addClass('current')
 
-    $('#' + id).next().addClass('current')
+    nav.removeClass('marked')
+    nav.removeClass('answered')
 
-    $('#' + id).next().removeClass('marked')
-    $('#' + id).next().removeClass('answered')
+    <% solution = @test.question_solution(@question_id) %>
 
-    <% if @test.question_solution(@question).has_mark? %>
-    $("#question-zone input[name='solution[has_mark]']").attr("checked","checked");
-    $('#' + id).next().addClass('marked')
+    <% if solution.has_mark? %>
+        $("#question-zone input[name='solution[has_mark]']").attr("checked","checked");
+        nav.addClass('marked')
     <% end %>
 
-    <% if @test.question_solution(@question).has_answer? %>
+    <% if solution.has_answer? %>
     //已经回答答案
-    $("#question-zone :radio[value='<%= @test.question_solution(@question).answer %>']").attr("checked","checked");
-    $('#' + id).next().addClass('answered')
+        $("#question-zone :radio[value='<%= @test.question_solution(@question_id).answer %>']").attr("checked","checked");
+        nav.addClass('answered')
     <% end %>
 <% else %>
     $('#handin-window').modal()

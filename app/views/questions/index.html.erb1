@@ -1,0 +1,146 @@
+<script type="text/javascript">
+    $(function() {
+        var currentDate = new Date();
+        var rest = parseInt(<%= @test.paper.duration * 60*1000  + (@test.started_at - Time.now)*1000 %>)
+        $('div#clock').countdown(currentDate.valueOf() + rest , function(event) {
+            $this = $(this);
+            switch(event.type) {
+                case "seconds":
+                case "minutes":
+                case "hours":
+                case "days":
+                case "weeks":
+                case "daysLeft":
+                    $this.find('span#'+event.type).html(event.value);
+                    break;
+                case "finished":
+                    $this.fadeTo('slow', .5);
+
+                    $('#question-zone').empty()
+                    $('.current').removeClass('current')
+
+                    $('#expire-handin-window').modal()
+                    break;
+            }
+        });
+    });
+</script>
+
+<div id="clock" style="border-bottom: #ccc dashed 1px;">
+  <p>
+    <span id="hours"></span>
+    Hours
+  </p>
+  <div class="space">:</div>
+  <p>
+    <span id="minutes"></span>
+    Minutes
+  </p>
+  <div class="space">:</div>
+  <p>
+    <span id="seconds"></span>
+    Seconds
+  </p>
+  <div class="space">  </div>
+  <div style="margin-top: 30px;"><a href="#handin-window" role="button" class="btn btn-large btn-success" data-toggle="modal">交&nbsp;&nbsp;卷</a></div>
+</div>
+
+<div id="question-zone">
+
+</div>
+
+<div class="container" style="border: #ccc solid 1px; padding: 15px; ">
+<% if @test.paper.has_parts? %>
+    <% @test.paper.partial_papers.each_with_index do |part, j| %>
+        <h4><span class="badge badge-important"><%= part.name %></span></h4>
+        <% part.questions.each_with_index do |question, i| %>
+            <script type="text/html" id="<%= question.id %>" class="question-template">
+            <div>
+              <%= question.paper.name %>
+              <div><%= raw(question.material.content) unless question.material.nil? %></div>
+              <dl>
+                <dt><%= i + 1 %>. <%= raw(question.content) %></dt>
+                <dd>
+                  <ol>
+                    <%= simple_form_for @test.question_solution(question), :url => test_question_solution_path(@test, question), :remote => true, :html => {:class => 'form-horizontal'} do |f| %>
+                        <input type="hidden" name="next" value="<%= next1(@test.paper.partial_papers, j, i) %>">
+                        <% question.choices.each do |choice| %>
+                            <li>
+                              <input type="radio" name="solution[answer]" value="<%= choice.id %>">
+                              <%= choice.content %>
+                            </li>
+                        <% end %>
+                        <div style="margin-top: 15px; border-top: solid #ccc 1px;" class="row">
+                        <%= f.input :has_mark,  :label=> '标记', :label_html => {:style => 'width:30px'}, :input_html => {:style => 'position: relative; right: 140px; top:4px'}%>
+
+                        <%= submit_tag '保存并下一题', :class => 'btn btn-primary' %>
+                        </div>
+                    <% end %>
+                  </ol>
+                </dd>
+              </dl>
+            </div>
+            </script>
+
+            <a id="nav-<%= question.id %>" class="btn nav <%= 'marked' if @test.question_solution(question).has_mark? %> <%= 'answered' if @test.question_solution(question).has_answer? %>"
+               href="<%= test_question_path(@test, question) %>" data-remote='true'><%= i+1 %></a>
+        <% end %>
+        <hr>
+
+    <% end %>
+
+<% else %>
+    <% @test.paper.questions.each_with_index do |question, i| %>
+        <a class="btn <%= 'btn-inverse' if i == 0 %>" question="<%= question.id %>"><%= i+1 %></a>
+    <% end %>
+<% end %>
+
+</div>
+
+
+  <div id="handin-window" class="modal hide fade">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>交卷提示:</h3>
+    </div>
+    <div class="modal-body">
+      <ol>
+        <li>请仔细确认是否有未答题目</li>
+        <li>如果有标记不确定答案的问题，请再仔细斟酌答案</li>
+        <li>如果无上述,在答题剩余时间充裕情况下，仔细检查答案</li>
+      </ol>
+    </div>
+    <div class="modal-footer">
+      <%= simple_form_for @test do |f| %>
+          <%= submit_tag '确认交卷', :class => 'btn btn-primary', :confirm => '你确认完成考试并交卷吗？' %>
+      <% end %>
+    </div>
+  </div>
+
+
+
+  <div id="expire-handin-window" class="modal hide fade">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>交卷提示:</h3>
+    </div>
+    <div class="modal-body">
+      <ol>
+        <li>考试规定时间已到，如未答完，请停止答题</li>
+        <li>本窗口将在10秒后自动关闭</li>
+      </ol>
+    </div>
+    <div class="modal-footer">
+      <%= simple_form_for @test do |f| %>
+          <%= submit_tag '交卷', :class => 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+
+<script type="text/javascript">
+    $('a.nav').first().trigger('click')
+</script>
+
+
+
+
