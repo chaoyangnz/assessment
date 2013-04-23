@@ -16,7 +16,7 @@ class Paper < ActiveRecord::Base
   end
 
   def deleted?
-    status = 'deleted'
+    status == 'deleted'
   end
 
   def general?
@@ -47,8 +47,54 @@ class Paper < ActiveRecord::Base
   validates :name, length: { maximum: 100 }
   validates :score, length: { maximum: 5 }, numericality: { only_integer: true }
   validates :duration, length: { maximum: 5 }, numericality: { only_integer: true }
+  validates :score, length: { maximum: 5 },
+            numericality: { only_integer: true,
+                            :less_than_or_equal_to => Proc.new { |part| part.available_score},
+            },
+            :if => 'partial?'
+  validates :score, length: { maximum: 5 },
+            numericality: { only_integer: true,
+                            :greater_than_or_equal_to => Proc.new { |paper| paper.already_score},
+            },
+            :if => 'general?'
+  validates :duration, length: { maximum: 5 },
+            numericality: { only_integer: true,
+                            :less_than_or_equal_to => Proc.new { |part| part.available_duration},
+            },
+            :if => 'partial?'
+  validates :duration, length: { maximum: 5 },
+            numericality: { only_integer: true,
+                            :greater_than_or_equal_to => Proc.new { |paper| paper.already_duration},
+            },
+            :if => 'general?'
 
   ##--------------------------------------查询方法--------------------------------------------------------------
+  def already_score
+    partial_papers.inject(0) {|score, part| score + part.score}
+  end
+
+  def already_duration
+    partial_papers.inject(0) {|duration, part| duration + part.duration}
+  end
+  #此方法应用于part
+  def available_score
+    if new_record?
+      general_paper.score - general_paper.already_score
+    else
+      p = Paper.find(id)
+      general_paper.score - general_paper.already_score + p.score
+    end
+  end
+
+  def available_duration
+    if new_record?
+      general_paper.duration - general_paper.already_duration
+    else
+      p = Paper.find(id)
+      general_paper.duration - general_paper.already_duration + p.duration
+    end
+  end
+
   def top_nodes
     if partial?
       Node.find_by_sql(["select * from nodes where (type='material' or node_id is null) and paper_id = ? order by weight asc", id]).map do |node|
