@@ -2,6 +2,7 @@
 %html
   %head
     %title AssessIt!
+    = include_gon
     = stylesheet_link_tag 'application', :media => 'all'
     -#= stylesheet_link_tag params[:controller]
     = yield :stylesheets

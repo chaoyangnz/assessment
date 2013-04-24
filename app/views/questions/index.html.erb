@@ -24,10 +24,9 @@
             }
         });
 
+        // 提交下一题时，附加get参数next_id
         $('#question-zone').on('submit', 'form', function () {
-            console.log(11)
             var id = $(this).parents('div').attr('question')
-            console.log(id)
             var next_id = $('#' + id).nextAll('script').first().attr('id')
             var action = $(this).attr('action')
             action += '?next_id=' + (next_id || '')

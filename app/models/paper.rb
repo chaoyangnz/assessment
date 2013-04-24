@@ -37,6 +37,7 @@ class Paper < ActiveRecord::Base
 
   ##----------------------------------------关系----------------------------------------------------------------
   belongs_to :general_paper, :class_name => 'Paper', :foreign_key => 'paper_id', :conditions => "type = 'general' and  paper_id is null"
+  #只包含未删除的单项
   has_many :partial_papers, :class_name => 'Paper', :conditions => "type = 'partial' and status is null"
 
   has_many :nodes
@@ -95,10 +96,11 @@ class Paper < ActiveRecord::Base
     end
   end
 
+  #查询出顶级节点，如果是material，将其下问题排序
   def top_nodes
     if partial?
-      Node.find_by_sql(["select * from nodes where (type='material' or node_id is null) and paper_id = ? order by weight asc", id]).map do |node|
-        node.questions.sort!() if node.material?
+      Node.find_by_sql(["select * from nodes where paper_id = ? and (type='material' or node_id is null)  order by weight asc", id]).map do |node|
+        node.questions.order('weight asc') if node.material?
         node
       end
     else
@@ -106,12 +108,13 @@ class Paper < ActiveRecord::Base
     end
   end
 
-  #def questions
-  #  if partial?
-  #    #nodes.where(:depth => 1).order('weight asc').map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
-  #    Node.find_by_sql(["select * from nodes where paper_id = ? and (type = 'material' or node_id is null) order by weight asc", id]).map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
-  #  else
-  #    partial_papers.map {|part| part.questions }.inject(:+)
-  #  end
-  #end
+  # 查询出全部平铺的问题列表
+  def questions
+    if partial?
+      #nodes.where(:depth => 1).order('weight asc').map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
+      Node.find_by_sql(["select * from nodes where paper_id = ? and (type = 'material' or node_id is null) order by weight asc", id]).map {|node| node.material? ? node.questions.order('weight asc') : node }.flatten
+    else
+      partial_papers.map {|part| part.questions }.inject(:+)
+    end
+  end
 end
