@@ -92,6 +92,17 @@ Modernizr.load([{
     }
 }]);
 
+
+
+        var h =  window.screen.availHeight-164 - 62;
+        if (document.body.clientHeight < h) {
+        $('footer').css('position', 'absolute')
+        $('footer').css('width', '100%')
+        $('footer').css('top', h)
+        }
+
+
+
 }); //END-OF-JQUERY-READY
 
 
